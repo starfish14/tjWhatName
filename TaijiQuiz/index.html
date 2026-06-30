@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>太极拳全能知识闯关</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <header>
+      <h1>太极拳全能闯关</h1>
+      <div class="subtitle">选择题 · 判断题 · 简答题 (自测评分)</div>
+    </header>
+
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <div class="stat-item">得分：<span class="stat-val" id="score">0</span></div>
+      <div class="progress-wrapper">
+        <div class="progress-track">
+          <div class="progress-fill" id="progress"></div>
+        </div>
+      </div>
+      <div class="stat-item">进度：<span id="progress-text">0/0</span></div>
+    </div>
+
+    <!-- 答题区域 -->
+    <div id="quiz-container">
+      <!-- 题目动态生成 -->
+    </div>
+
+    <footer>
+      <p>&copy; 太极拳知识普及 | 修身养性 知行合一</p>
+    </footer>
+  </div>
+
+  <!-- 题库数据（必须先于引擎加载） -->
+  <script src="js/data.js"></script>
+  <!-- 答题引擎 -->
+  <script src="js/app.js"></script>
+</body>
+
+</html>

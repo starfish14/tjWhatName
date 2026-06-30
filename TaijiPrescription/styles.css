@@ -1,0 +1,226 @@
+/* ===== CSS Variables ===== */
+:root {
+  --tj-dark: #2c3e50;
+  --tj-light: #f4f1ea;
+  --tj-accent: #8e44ad;
+}
+
+/* ===== Base ===== */
+body {
+  background-color: var(--tj-light);
+  font-family: "PingFang SC", sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+}
+
+/* ===== Settings Panel ===== */
+.settings-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 20;
+  border-radius: 999px;
+  padding: 8px 16px;
+}
+
+.settings-panel {
+  position: fixed;
+  top: 62px;
+  right: 18px;
+  z-index: 20;
+  width: min(320px, calc(100vw - 36px));
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #e5e0d8;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  padding: 16px;
+  display: none;
+}
+
+.settings-panel h2 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  color: var(--tj-dark);
+}
+
+.settings-panel label {
+  display: block;
+  margin: 10px 0 6px;
+  color: #465564;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.settings-panel input[type="text"],
+.settings-panel input[type="password"] {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 0.9rem;
+}
+
+.settings-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.settings-switch label {
+  margin: 0;
+  font-weight: 400;
+}
+
+.settings-tip {
+  margin: 12px 0 0;
+  color: #7f8c8d;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+/* ===== Main Container ===== */
+.container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+h1 {
+  color: var(--tj-dark);
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+/* ===== Input Area ===== */
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+/* ===== Quiz Section ===== */
+#quizSection {
+  display: none;
+  border-top: 2px solid #eee;
+  padding-top: 20px;
+}
+
+.question {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.option-btn {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.option-btn.selected {
+  background: var(--tj-dark);
+  color: white;
+}
+
+/* ===== Video Container ===== */
+#videoContainer {
+  width: 100%;
+  margin-bottom: 15px;
+  display: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+video {
+  width: 100%;
+  display: block;
+}
+
+/* ===== Result ===== */
+#result {
+  padding: 1.5rem;
+  border-radius: 10px;
+  background: #f9f9f9;
+  line-height: 1.7;
+  display: none;
+  white-space: pre-wrap;
+  margin-bottom: 15px;
+}
+
+/* ===== Buttons ===== */
+.btn-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+button {
+  background: var(--tj-dark);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:disabled {
+  background: #ccc;
+}
+
+/* ===== History ===== */
+.history-section {
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.history-item {
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  background: #fff;
+}
+
+/* ===== Loading ===== */
+.loading {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}

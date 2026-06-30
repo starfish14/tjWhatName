@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> 太极处方 </title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <button id="settingsToggle" class="settings-toggle" type="button" aria-expanded="false"
+    aria-controls="settingsPanel">API</button>
+
+  <aside id="settingsPanel" class="settings-panel" aria-hidden="true">
+    <h2>连接设置</h2>
+    <label for="proxyUrlInput">后端代理地址</label>
+    <input id="proxyUrlInput" type="text" placeholder="/api/chat" autocomplete="off">
+    <p class="settings-tip">
+      前端不再持有 API Key。所有 AI 请求通过后端代理转发，Key 由后端环境变量管理。<br>
+      默认 <code>/api/chat</code>，部署时改为实际后端地址。
+    </p>
+  </aside>
+
+  <div class="container">
+    <h1>太极处方</h1>
+    <p class="subtitle">AI 辅助辩证 · 动态招式演示</p>
+
+    <div id="step1">
+      <textarea id="userInput" placeholder="请描述您的症状（如：颈椎僵硬、心烦易怒、失眠多梦...）"></textarea>
+      <div class="btn-group">
+        <button id="startBtn" onclick="generateQuiz()">开始辩证问卷</button>
+      </div>
+    </div>
+
+    <div id="quizSection">
+      <div id="quizContainer"></div>
+      <div class="btn-group">
+        <button onclick="getFinalPrescription()">生成最终处方</button>
+      </div>
+    </div>
+
+    <div id="resultSection">
+      <div id="loading" class="loading">正在为您调理气息...</div>
+      <div id="videoContainer"></div>
+      <div id="result"></div>
+      <div class="btn-group" id="finalBtns" style="display:none">
+        <button onclick="exportToLocal()">导出处方</button>
+        <button onclick="location.reload()" style="background:#7f8c8d">重新开始</button>
+      </div>
+    </div>
+
+    <div class="history-section">
+      <p style="font-weight:bold; font-size:0.9rem; color:#888;">我的历史方剂</p>
+      <div id="historyList"></div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
