@@ -1,37 +1,73 @@
 /* ===== 状态 ===== */
 const HISTORY_KEY = "taiji_pro_history";
+const BODY_DATA_KEY = "taiji_body_data";
 
 let quizData = [];
 let userAnswers = {};
 let currentAdvice = "";
+const bodyDataFields = [
+  { id: "bodyAge", label: "年龄", unit: "岁" },
+  { id: "bodyGender", label: "性别" },
+  { id: "bodyHeight", label: "身高", unit: "cm" },
+  { id: "bodyWeight", label: "体重", unit: "kg" },
+  { id: "bodyBloodPressure", label: "血压" },
+  { id: "bodyHeartRate", label: "静息心率", unit: "次/分" },
+  { id: "bodySleep", label: "睡眠" },
+  { id: "bodyActivity", label: "运动习惯" },
+  { id: "bodyPain", label: "主要疼痛或不适部位" },
+  { id: "bodyConditions", label: "既往病史" },
+  { id: "bodyMedications", label: "用药或禁忌" },
+  { id: "bodyNotes", label: "补充说明" }
+];
 
 /* ===== 初始化 ===== */
 window.onload = init;
 
 function init() {
-  loadSettings();
-  bindSettingsEvents();
+  initBodyDataPanel();
   displayHistory();
 }
 
-/* ===== 设置面板 ===== */
-function loadSettings() {
-  document.getElementById("proxyUrlInput").value = API.getProxyUrl();
+/* ===== 身体数据 ===== */
+function initBodyDataPanel() {
+  const savedData = JSON.parse(localStorage.getItem(BODY_DATA_KEY) || "{}");
+
+  bodyDataFields.forEach(({ id }) => {
+    const field = document.getElementById(id);
+    if (!field) return;
+
+    field.value = savedData[id] || "";
+    field.addEventListener("input", saveBodyData);
+    field.addEventListener("change", saveBodyData);
+  });
 }
 
-function bindSettingsEvents() {
-  document.getElementById("settingsToggle").addEventListener("click", () => {
-    const panel = document.getElementById("settingsPanel");
-    const toggle = document.getElementById("settingsToggle");
-    const isOpen = toggle.getAttribute("aria-expanded") === "true";
-    panel.style.display = isOpen ? "none" : "block";
-    panel.setAttribute("aria-hidden", String(isOpen));
-    toggle.setAttribute("aria-expanded", String(!isOpen));
-  });
+function toggleBodyDataPanel() {
+  const panel = document.getElementById("bodyDataPanel");
+  const isCollapsed = panel.classList.toggle("collapsed");
+  document.getElementById("bodyDataToggle").setAttribute("aria-expanded", String(!isCollapsed));
+}
 
-  document.getElementById("proxyUrlInput").addEventListener("change", (e) => {
-    API.setProxyUrl(e.target.value.trim());
-  });
+function saveBodyData() {
+  const bodyData = bodyDataFields.reduce((data, { id }) => {
+    const field = document.getElementById(id);
+    if (field && field.value.trim()) data[id] = field.value.trim();
+    return data;
+  }, {});
+
+  localStorage.setItem(BODY_DATA_KEY, JSON.stringify(bodyData));
+}
+
+function getBodyDataSummary() {
+  const entries = bodyDataFields
+    .map(({ id, label, unit }) => {
+      const field = document.getElementById(id);
+      const value = field?.value.trim();
+      return value ? `${label}:${value}${unit || ""}` : "";
+    })
+    .filter(Boolean);
+
+  return entries.length ? entries.join("；") : "用户未填写身体数据";
 }
 
 /* ===== 第一步：生成问卷 ===== */
@@ -84,9 +120,10 @@ async function getFinalPrescription() {
 
   const symptoms = document.getElementById("userInput").value;
   const quizSummary = Object.values(userAnswers).join("；");
+  const bodyDataSummary = getBodyDataSummary();
 
   try {
-    currentAdvice = await API.generatePrescription(symptoms, quizSummary);
+    currentAdvice = await API.generatePrescription(symptoms, quizSummary, bodyDataSummary);
     processResult(currentAdvice);
     saveHistory(symptoms, currentAdvice);
   } catch (error) {

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>通用训练</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="blog-body">
+  <header class="blog-header">
+    <a class="back-link" href="index.html">返回太极处方</a>
+    <h1>通用训练</h1>
+  </header>
+
+  <main class="blog-layout">
+    <section class="blog-main" aria-label="通用训练文章">
+      <div class="blog-toolbar">
+        <h2>训练文章</h2>
+        <button class="secondary-btn" type="button" onclick="loadGeneralTrainingArticles(true)">刷新</button>
+      </div>
+      <div id="generalTrainingLoading" class="loading">正在读取通用训练文章...</div>
+      <div id="generalTrainingEmpty" class="empty-state" hidden>暂无文章，等待后端上传内容。</div>
+      <div id="generalTrainingList" class="blog-article-list"></div>
+    </section>
+  </main>
+
+  <script src="api.js"></script>
+  <script src="general-training.js"></script>
+</body>
+
+</html>

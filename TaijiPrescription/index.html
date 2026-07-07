@@ -10,22 +10,48 @@
 
 <body>
 
-  <button id="settingsToggle" class="settings-toggle" type="button" aria-expanded="false"
-    aria-controls="settingsPanel">API</button>
-
-  <aside id="settingsPanel" class="settings-panel" aria-hidden="true">
-    <h2>连接设置</h2>
-    <label for="proxyUrlInput">后端代理地址</label>
-    <input id="proxyUrlInput" type="text" placeholder="/api/chat" autocomplete="off">
-    <p class="settings-tip">
-      前端不再持有 API Key。所有 AI 请求通过后端代理转发，Key 由后端环境变量管理。<br>
-      默认 <code>/api/chat</code>，部署时改为实际后端地址。
-    </p>
-  </aside>
-
   <div class="container">
     <h1>太极处方</h1>
     <p class="subtitle">AI 辅助辩证 · 动态招式演示</p>
+
+    <div class="page-link-row">
+      <a class="page-link-btn" href="general-training.html">通用训练</a>
+    </div>
+
+    <main id="prescriptionPage" class="page-block prescription-page">
+    <section id="bodyDataPanel" class="body-data-panel collapsed" aria-label="身体数据">
+      <button id="bodyDataToggle" class="body-data-toggle" type="button" onclick="toggleBodyDataPanel()" aria-expanded="false" title="身体数据">
+        身
+      </button>
+      <div class="body-data-content">
+        <div class="body-data-header">
+          <h2>身体数据</h2>
+          <button class="icon-btn" type="button" onclick="toggleBodyDataPanel()" aria-label="收起身体数据">×</button>
+        </div>
+        <div class="body-data-grid">
+          <label>年龄<input id="bodyAge" type="number" min="0" max="120" placeholder="岁"></label>
+          <label>性别
+            <select id="bodyGender">
+              <option value="">未填写</option>
+              <option value="女">女</option>
+              <option value="男">男</option>
+              <option value="其他">其他</option>
+            </select>
+          </label>
+          <label>身高<input id="bodyHeight" type="number" min="0" max="260" placeholder="cm"></label>
+          <label>体重<input id="bodyWeight" type="number" min="0" max="300" placeholder="kg"></label>
+          <label>血压<input id="bodyBloodPressure" type="text" placeholder="如 120/80"></label>
+          <label>静息心率<input id="bodyHeartRate" type="number" min="0" max="220" placeholder="次/分"></label>
+          <label>睡眠<input id="bodySleep" type="text" placeholder="如 6小时，易醒"></label>
+          <label>运动习惯<input id="bodyActivity" type="text" placeholder="如 久坐/每周3次"></label>
+        </div>
+        <label class="full-field">主要疼痛或不适部位<input id="bodyPain" type="text" placeholder="如 颈肩、腰膝、胸闷"></label>
+        <label class="full-field">既往病史<input id="bodyConditions" type="text" placeholder="如 高血压、糖尿病、颈椎病"></label>
+        <label class="full-field">用药或禁忌<input id="bodyMedications" type="text" placeholder="如 降压药、膝关节避免深蹲"></label>
+        <label class="full-field">补充说明<textarea id="bodyNotes" rows="3" placeholder="其他希望 AI 参考的健康信息"></textarea></label>
+        <p class="body-data-hint">这些数据会随症状一起提供给 AI 参考，用于调整动作强度和养生建议。</p>
+      </div>
+    </section>
 
     <div id="step1">
       <textarea id="userInput" placeholder="请描述您的症状（如：颈椎僵硬、心烦易怒、失眠多梦...）"></textarea>
@@ -55,6 +81,8 @@
       <p style="font-weight:bold; font-size:0.9rem; color:#888;">我的历史方剂</p>
       <div id="historyList"></div>
     </div>
+    </main>
+
   </div>
 
   <script src="api.js"></script>

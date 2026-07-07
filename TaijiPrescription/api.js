@@ -3,16 +3,6 @@ const API = (() => {
 
   let proxyUrl = localStorage.getItem(STORAGE_KEY) || "/api/chat";
 
-  function getProxyUrl() {
-    return proxyUrl;
-  }
-
-  function setProxyUrl(url) {
-    proxyUrl = url || "/api/chat";
-    localStorage.setItem(STORAGE_KEY, proxyUrl);
-  }
-
-
   async function chatCompletion(messages, responseFormat) {
     const body = { messages };
     if (responseFormat) body.response_format = responseFormat;
@@ -48,6 +38,32 @@ const API = (() => {
     return content;
   }
 
+  async function getGeneralTrainingArticles() {
+    let response;
+    try {
+      response = await fetch("/api/general-training/articles", {
+        headers: { "Accept": "application/json" }
+      });
+    } catch {
+      throw new Error("无法连接通用训练文章服务。");
+    }
+
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error("通用训练文章接口返回了无法解析的数据。");
+    }
+
+    if (!response.ok) {
+      throw new Error(data?.error?.message || data?.error || `通用训练文章接口返回状态 ${response.status}`);
+    }
+
+    if (Array.isArray(data)) return data;
+    if (Array.isArray(data?.articles)) return data.articles;
+    return [];
+  }
+
 
   /**
    * 根据症状生成 5 道辩证问卷
@@ -68,10 +84,13 @@ const API = (() => {
   /**
    * 综合症状 + 问卷答案，生成最终太极处方
    */
-  async function generatePrescription(symptoms, quizAnswers) {
+  async function generatePrescription(symptoms, quizAnswers, bodyDataSummary) {
     const prompt = `你是一位精通太极拳与中医养生的专家。
 用户初诉：${symptoms}
 辩证细节：${quizAnswers}
+身体数据：${bodyDataSummary}
+
+请结合身体数据调整处方强度。若存在血压异常、心率异常、严重疼痛、慢性病、用药或禁忌，请优先给出温和安全的练习建议，并提示用户必要时咨询专业医生。
 
 请输出纯文本处方，且只推荐一个招式。严禁使用Markdown（如#或*符号）。
 格式必须严格如下：
@@ -93,5 +112,5 @@ const API = (() => {
     return JSON.parse(raw.slice(start, end + 1));
   }
 
-  return { getProxyUrl, setProxyUrl, chatCompletion, generateQuiz, generatePrescription };
+  return { chatCompletion, getGeneralTrainingArticles, generateQuiz, generatePrescription };
 })();
